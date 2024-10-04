@@ -31,6 +31,13 @@ jobs:
 
     - name: Debug Secrets
       run: |
+        if [ -z "${{ secrets.KEYID }}" ]; then
+          echo "KEYID is not set!"
+          exit 1
+        else
+          echo "KEYID is set."
+        fi
+
         if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
           echo "AWS_ACCESS_KEY_ID is not set!"
           exit 1
