@@ -19,11 +19,11 @@ jobs:
       with:
         node-version: '16'  # Specify the required Node.js version
 
-    - name: Install dependencies
-      run: npm install
+    # - name: Install dependencies
+    #   run: npm install
 
-    - name: Build React app
-      run: npm run build
+    # - name: Build React app
+    #   run: npm run build
 
     - name: Configure AWS credentials
       run: |
