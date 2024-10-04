@@ -38,7 +38,7 @@ jobs:
       run: sudo apt-get install -y awscli
 
     - name: Sync S3 bucket
-      run: aws s3 sync ./ s3://devtest-new --acl public-read --delete
+      run: aws s3 cp ./ s3://devtest-new --recursive
 
     - name: Output Release Information
       run: echo "Deployed   Release:"
