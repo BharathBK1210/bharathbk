@@ -1,14 +1,13 @@
-name: Deploy React to S3 on Specific Release
+name: Development test
 
 on:
-  release:
-    types: 
-      - published  # Trigger when a release is published
+  push:
+    branches:
+      - development  # Trigger when a release is published
 
 jobs:
   deploy:
-    if: startsWith(github.event.release.tag_name, 'v1.')  # Only deploy for releases with tags that start with 'v1.'
-    runs-on: Ubuntu 20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -24,6 +23,23 @@ jobs:
 
     # - name: Build React app
     #   run: npm run build
+
+    - name: Debug Secrets
+      run: |
+        if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+          echo "AWS_ACCESS_KEY_ID is not set!"
+          exit 1
+        else
+          echo "AWS_ACCESS_KEY_ID is set."
+        fi
+
+        if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+          echo "AWS_SECRET_ACCESS_KEY is not set!"
+          exit 1
+        else
+          echo "AWS_SECRET_ACCESS_KEY is set."
+        fi
+
 
     - name: Configure AWS credentials
       run: |
