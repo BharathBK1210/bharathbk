@@ -38,5 +38,9 @@ jobs:
       - name: SSH into the jump server and forward connection to main server
         run: |
           ssh -i ~/.ssh/jump_key.pem -o StrictHostKeyChecking=no -A ubuntu@13.233.193.242 << 'EOF'
+          echo "Inside server"
+          sudo su
+          echo "Inisde root"
+          aws s3 ls
           echo aws s3 ls
            EOF
