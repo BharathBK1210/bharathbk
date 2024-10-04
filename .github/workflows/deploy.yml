@@ -3,7 +3,7 @@ name: Deploy via SSH through Jump Server
 on:
   push:
     branches:
-      - main  # Run on pushes to the main branch
+      - development  # Run on pushes to the main branch
 
 jobs:
   deploy:
