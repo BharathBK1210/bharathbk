@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     if: startsWith(github.event.release.tag_name, 'v1.')  # Only deploy for releases with tags that start with 'v1.'
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
 
     steps:
     - name: Checkout code
