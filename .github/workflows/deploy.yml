@@ -69,7 +69,7 @@ jobs:
       run: |
        echo "awscall"
        echo aws s3 ls
-       aws s3 sync ./ s3://testdevnewbucket --acl public-read --delete
+       aws s3 sync ./ s3://testdevnewbucket --delete
 
     - name: Output Release Information
       run: echo "Deployed Release:"
