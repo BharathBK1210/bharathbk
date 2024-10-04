@@ -41,4 +41,4 @@ jobs:
       run: aws s3 sync ./ s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read --delete
 
     - name: Output Release Information
-      run: echo "Deployed   Release:"
+      run: echo "Deployed Release:"
