@@ -56,7 +56,19 @@ jobs:
           echo "Next Version: $NEXT_VERSION"
           echo "next_version=$NEXT_VERSION" >> $GITHUB_ENV
 
+      - name: Check for Existing Tag
+        run: |
+          TAG_NAME="${{ env.next_version }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists. Skipping tag creation."
+            echo "tag_exists=true" >> $GITHUB_ENV
+          else
+            echo "Tag $TAG_NAME does not exist. It will be created."
+            echo "tag_exists=false" >> $GITHUB_ENV
+          fi
+
       - name: Create and Push Tag
+        if: env.tag_exists == 'false'
         run: |
           TAG_NAME="${{ env.next_version }}"
           echo "Creating tag: $TAG_NAME"
