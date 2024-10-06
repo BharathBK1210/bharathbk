@@ -36,7 +36,7 @@ jobs:
             IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG//v/}"
           fi
 
-          # Check commit messages to determine the version increment
+          # Check commit messages  to determine the version increment
           COMMITS=$(git log "$LATEST_TAG"..HEAD --pretty=format:"%s")
           for COMMIT in $COMMITS; do
             if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
