@@ -42,7 +42,7 @@ jobs:
           # Check commit messages  to determine the version increment
           COMMITS=$(git log "$LATEST_TAG"..HEAD --pretty=format:"%s")
           for COMMIT in $COMMITS; do
-            if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
+            if [[ "$COMMIT" == *"breaking"* ]]; then
               MAJOR=$((MAJOR + 1))
               MINOR=0
               PATCH=0
