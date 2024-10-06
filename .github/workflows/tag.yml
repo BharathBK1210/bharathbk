@@ -1,0 +1,64 @@
+name: Create Semantic Version Tag on Merge
+
+on:
+  push:
+    branches:
+      - development  # Change this to your target branch
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set Up Git
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+
+      - name: Get Latest Version
+        id: get_version
+        run: |
+          # Get the latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "Latest Tag: $LATEST_TAG"
+
+          # If no tags exist, start with version 0.1.0
+          if [ -z "$LATEST_TAG" ]; then
+            NEXT_VERSION="0.1.0"
+            MAJOR=0
+            MINOR=1
+            PATCH=0
+          else
+            # Split the latest tag into major, minor, and patch
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG//v/}"
+          fi
+
+          # Check commit messages to determine the version increment
+          COMMITS=$(git log $LATEST_TAG..HEAD --pretty=format:"%s")
+          for COMMIT in $COMMITS; do
+            if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              break
+            elif [[ "$COMMIT" == *"feat"* ]]; then
+              MINOR=$((MINOR + 1))
+              PATCH=0
+            elif [[ "$COMMIT" == *"fix"* ]]; then
+              PATCH=$((PATCH + 1))
+            fi
+          done
+
+          NEXT_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "Next Version: $NEXT_VERSION"
+          echo "next_version=$NEXT_VERSION" >> $GITHUB_ENV
+
+      - name: Create and Push Tag
+        run: |
+          TAG_NAME="${{ env.next_version }}"
+          echo "Creating tag: $TAG_NAME"
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
