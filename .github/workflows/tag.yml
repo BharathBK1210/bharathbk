@@ -22,12 +22,12 @@ jobs:
         id: get_version
         run: |
           # Get the latest tag
-          LATEST_TAG=$(git describe --tags --abbrev=0)
+          LATEST_TAG=$(git describe --tags --abbrev=0 || echo "")
           echo "Latest Tag: $LATEST_TAG"
 
-          # If no tags exist, start with version 0.1.0
+          # Initialize version numbers
           if [ -z "$LATEST_TAG" ]; then
-            NEXT_VERSION="0.1.0"
+            NEXT_VERSION="0.1.0"  # Starting version
             MAJOR=0
             MINOR=1
             PATCH=0
@@ -37,7 +37,7 @@ jobs:
           fi
 
           # Check commit messages to determine the version increment
-          COMMITS=$(git log $LATEST_TAG..HEAD --pretty=format:"%s")
+          COMMITS=$(git log "$LATEST_TAG"..HEAD --pretty=format:"%s")
           for COMMIT in $COMMITS; do
             if [[ "$COMMIT" == *"BREAKING CHANGE"* ]]; then
               MAJOR=$((MAJOR + 1))
