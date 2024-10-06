@@ -3,7 +3,7 @@ name: Create Semantic Version Tag on Merge
 on:
   push:
     branches:
-      - development  # Change  this to your target branch
+      - development  # Change  this to your  target branch
 
 jobs:
   create-tag:
