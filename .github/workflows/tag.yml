@@ -35,7 +35,7 @@ jobs:
             MINOR=1
             PATCH=0
           else
-            # Split the latest tag into major, minor, and patch
+            # Split the latest tag into  major, minor, and patch
             IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST_TAG//v/}"
           fi
 
