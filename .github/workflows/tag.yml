@@ -21,7 +21,7 @@ jobs:
       - name: Get Latest Version
         id: get_version
         run: |
-          # Get the latest tag
+          # Get the  latest tag
           LATEST_TAG=$(git describe --tags --abbrev=0 || echo "")
           echo "Latest Tag: $LATEST_TAG"
 
